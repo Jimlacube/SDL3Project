@@ -1,2 +1,4 @@
 ﻿  Main.cpp
-  SecondAttempt.vcxproj -> C:\Users\OwenRees\Documents\SDLProjects\SecondAttempt\x64\Debug\SecondAttempt.exe
+C:\Docs\SDL\SDL3Project\SecondAttempt\Main.cpp(43,55): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
+C:\Docs\SDL\SDL3Project\SecondAttempt\Main.cpp(45,53): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
+  SecondAttempt.vcxproj -> C:\Docs\SDL\SDL3Project\x64\Debug\SecondAttempt.exe

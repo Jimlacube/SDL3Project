@@ -3,7 +3,9 @@
 
 int main(int argc, char* argv[]) {
 
-    SDL_Window* window;                    // Declare a pointer
+    SDL_Window* window;                     // Declare a pointer
+    static SDL_Renderer* renderer = NULL;
+
     bool done = false;
 
     SDL_Init(SDL_INIT_VIDEO);              // Initialize SDL3
@@ -15,6 +17,8 @@ int main(int argc, char* argv[]) {
         480,                               // height, in pixels
         SDL_WINDOW_OPENGL                  // flags - see below
     );
+
+    renderer = SDL_CreateRenderer(window, NULL);
 
     // Check that the window was successfully created
     if (window == NULL) {
@@ -33,10 +37,29 @@ int main(int argc, char* argv[]) {
         }
 
         // Do game logic, present a frame, etc.
+
+        
+
+        SDL_SetRenderDrawColor(renderer, 255, 255, 0, SDL_ALPHA_OPAQUE_FLOAT);
+        SDL_RenderClear(renderer);
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE_FLOAT);
+        
+        SDL_FRect rect;
+
+        rect.x = 10;
+        rect.y = 400;
+        rect.w = 100;
+        rect.h = 100;
+
+        SDL_RenderRect(renderer, &rect);
+
+        SDL_RenderPresent(renderer);
     }
 
     // Close and destroy the window
     SDL_DestroyWindow(window);
+    //Close and destroy renderer
+    SDL_DestroyRenderer(renderer);
 
     // Clean up
     SDL_Quit();
