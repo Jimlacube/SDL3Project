@@ -38,8 +38,6 @@ int main(int argc, char* argv[])
 
         // Do game logic, present a frame, etc.
 
-
-
         SDL_SetRenderDrawColor(renderer, 255, 255, 0, SDL_ALPHA_OPAQUE_FLOAT);
         SDL_RenderClear(renderer);
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE_FLOAT);
