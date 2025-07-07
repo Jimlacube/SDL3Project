@@ -1,4 +1,10 @@
 ﻿  Main.cpp
-C:\Users\OwenRees\Documents\SDLProjects\SimpleSDLGame\SimpleSDLGame\Main.cpp(43,55): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
-C:\Users\OwenRees\Documents\SDLProjects\SimpleSDLGame\SimpleSDLGame\Main.cpp(45,53): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
-  SimpleSDLGame.vcxproj -> C:\Users\OwenRees\Documents\SDLProjects\SimpleSDLGame\x64\Debug\SimpleSDLGame.exe
+C:\Docs\SDL\SDL3Project\SimpleSDLGame\Main.cpp(73,99): warning C4244: '=': conversion from '_Rep' to 'float', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+C:\Docs\SDL\SDL3Project\SimpleSDLGame\Main.cpp(74,23): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Docs\SDL\SDL3Project\SimpleSDLGame\Main.cpp(117,55): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
+C:\Docs\SDL\SDL3Project\SimpleSDLGame\Main.cpp(119,53): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
+  SimpleSDLGame.vcxproj -> C:\Docs\SDL\SDL3Project\x64\Debug\SimpleSDLGame.exe
