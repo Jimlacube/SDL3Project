@@ -139,7 +139,7 @@ int main(int argc, char* argv[])
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 1);
 
         SDL_FRect rect{};
-                
+        
         dashSpeed = UpdateDashSpeed(delta);
 
         if (bIsDashing)
@@ -151,7 +151,7 @@ int main(int argc, char* argv[])
         positionX += X * dashSpeed * speed * delta;
         positionY += Y * dashSpeed * speed * delta;
 
-        float rectSize = 20.0f + dashSpeed;
+        float rectSize = 20.0f;
 
         rect.x = positionX;
         rect.y = positionY;
