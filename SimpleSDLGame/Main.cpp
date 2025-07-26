@@ -1,18 +1,17 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <chrono>
+#include "Vectors.h"
 
 typedef std::chrono::high_resolution_clock Clock;
 
-float X = 0.0f;
-float Y = 0.0f;
+Vector2 XY = Vector2(0.0f);
 
 bool bIsDashing;
 bool bDashReady;
 float dashDistance;
 float dashTimeRemaining = 0.0f;
-float lastDashX = 0.0f;
-float lastDashY = 0.0f;
+Vector2 lastDash;
 
 static void StartDash()
 {
@@ -20,8 +19,7 @@ static void StartDash()
     {
         if (!bIsDashing)
         {
-            lastDashX = X;
-            lastDashY = Y;
+            lastDash = XY;
 
             dashDistance = 100.0f;
             bDashReady = false;
@@ -36,7 +34,7 @@ static float UpdateDashSpeed(float delta ,float timeToComplete = 0.3f)
     if (bIsDashing)
     {
         dashTimeRemaining -= delta;  
-        float deltaDashDistance = dashDistance * delta;
+        const float deltaDashDistance = dashDistance * delta;
 
         dSpeed = deltaDashDistance / timeToComplete;
 
@@ -57,13 +55,12 @@ static void KeyStateUpdate()
 {
     const bool* currentKeyStates = SDL_GetKeyboardState(nullptr);
     
-    X = 0.0f;
-    Y = 0.0f;
-
-    if (currentKeyStates[SDL_SCANCODE_UP])      Y -= 1.0f;
-    if (currentKeyStates[SDL_SCANCODE_DOWN])    Y += 1.0f;
-    if (currentKeyStates[SDL_SCANCODE_LEFT])    X -= 1.0f;
-    if (currentKeyStates[SDL_SCANCODE_RIGHT])   X += 1.0f;
+    XY = Vector2(0.0f);
+    
+    if (currentKeyStates[SDL_SCANCODE_UP])      XY.Y -= 1.0f;
+    if (currentKeyStates[SDL_SCANCODE_DOWN])    XY.Y += 1.0f;
+    if (currentKeyStates[SDL_SCANCODE_LEFT])    XY.X -= 1.0f;
+    if (currentKeyStates[SDL_SCANCODE_RIGHT])   XY.X += 1.0f;
     
     //Trigger dash when pressed. Reset dash when the key is released
     if (currentKeyStates[SDL_SCANCODE_SPACE])
@@ -102,13 +99,13 @@ int main(int argc, char* argv[])
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Could not create window: %s\n", SDL_GetError());
         return 1;
     }
-
-    float positionX = 200.0f;
-    float positionY = 200.0f;
+    Vector2 position = Vector2(200.0f, 200.0f);
 
     float speed = 100.0f;
 
     float dashSpeed = 1.0f;
+
+    float rectSize = 20.0f;
 
     //Calculate delta
     Clock::time_point prevTime;
@@ -129,32 +126,27 @@ int main(int argc, char* argv[])
         }
 
         KeyStateUpdate();
-
-        // Do game logic, present a frame, etc.
         
+        //Setup rendering 
         SDL_RenderClear(renderer);
 
         SDL_SetRenderDrawColor(renderer, 255, 255, 0, 1);
         SDL_RenderClear(renderer);
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 1);
 
-        SDL_FRect rect{};
-        
         dashSpeed = UpdateDashSpeed(delta);
 
         if (bIsDashing)
         {
-            X = lastDashX;
-            Y = lastDashY;
+            XY = lastDash;
         }
 
-        positionX += X * dashSpeed * speed * delta;
-        positionY += Y * dashSpeed * speed * delta;
+        position += XY * Vector2(dashSpeed * speed * delta);
 
-        float rectSize = 20.0f;
+        SDL_FRect rect{};
 
-        rect.x = positionX;
-        rect.y = positionY;
+        rect.x = position.X;
+        rect.y = position.Y;
         rect.w = rectSize;
         rect.h = rectSize;
 
