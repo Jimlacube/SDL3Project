@@ -1,37 +1,94 @@
 #pragma once
 
-struct Vector2
+template <typename T>
+
+struct Vector2_base
 {
 public:
-	//Unsure whether to use float or double here
-	float X = 0.0f;
-	float Y = 0.0f;
+	T X = 0;
+	T Y = 0;
 
-	Vector2()
-	{
-		X = 0.0f;
-		Y = 0.0f;
-	}
+	Vector2_base() = default;
+	~Vector2_base() = default;
 
-	Vector2(float x, float y)
+	inline Vector2_base(T x, T y)
 	{
 		X = x;
 		Y = y;
 	}
 
-	Vector2(float xy)
+	inline Vector2_base(T xy)
 	{
 		X = xy;
 		Y = xy;
 	}
+
 };
 
-Vector2 operator+(const Vector2& a, const Vector2& b);
-Vector2 operator-(const Vector2& a, const Vector2& b);
-Vector2 operator*(const Vector2& a, const Vector2& b);
-Vector2 operator/(const Vector2& a, const Vector2& b);
+using Vector2 = Vector2_base<float>;
+using Vector2_double = Vector2_base<double>;
+using Vector2_int = Vector2_base<int>;
 
-Vector2& operator +=(Vector2& a, const Vector2& b);
-Vector2& operator -=(Vector2& a, const Vector2& b);
-Vector2& operator *=(Vector2& a, const Vector2& b);
-Vector2& operator /=(Vector2& a, const Vector2& b);
+template <typename T>
+inline Vector2_base<T>& operator +=(Vector2_base<T>& a, const Vector2_base<T>& b)
+{
+	a.X += b.X;
+	a.Y += b.Y;
+	return a;
+};
+
+template <typename T>
+inline Vector2_base<T>& operator -=(Vector2_base<T>& a, const Vector2_base<T>& b)
+{
+	a.X -= b.X;
+	a.Y -= b.Y;
+	return a;
+};
+
+template <typename T>
+inline Vector2_base<T>& operator *=(Vector2_base<T>& a, const Vector2_base<T>& b)
+{
+	a.X *= b.X;
+	a.Y *= b.Y;
+	return a;
+};
+
+template <typename T>
+inline Vector2_base<T>& operator /=(Vector2_base<T>& a, const Vector2_base<T>& b)
+{
+	a.X /= b.X;
+	a.Y /= b.Y;
+	return a;
+};
+
+template <typename T>
+inline Vector2_base<T> operator+(const Vector2_base<T>& a, const Vector2_base<T>& b)
+{
+	return a += b;
+}
+
+template <typename T>
+inline Vector2_base<T> operator-(const Vector2_base<T>& a, const Vector2_base<T>& b)
+{
+	return a -= b;
+}
+
+template <typename T>
+inline Vector2_base<T> operator*(const Vector2_base<T>& a, const Vector2_base<T>& b)
+{
+	return a *= b;
+}
+
+template <typename T>
+inline Vector2_base<T> operator*(Vector2_base<T>& a, const float b)
+{
+	a.X *= b;
+	a.Y *= b;
+	return a;
+}
+
+template <typename T>
+inline Vector2_base<T> operator/(const Vector2_base<T>& a, const Vector2_base<T>& b)
+{
+	return a /= b;
+}

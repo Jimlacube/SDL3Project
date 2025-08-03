@@ -5,13 +5,13 @@
 
 typedef std::chrono::high_resolution_clock Clock;
 
-Vector2 XY = Vector2(0.0f);
+Vector2 XY = Vector2();
 
 bool bIsDashing;
 bool bDashReady;
 float dashDistance;
 float dashTimeRemaining = 0.0f;
-Vector2 lastDash;
+Vector2 lastDash = Vector2();
 
 static void StartDash()
 {
@@ -55,7 +55,7 @@ static void KeyStateUpdate()
 {
     const bool* currentKeyStates = SDL_GetKeyboardState(nullptr);
     
-    XY = Vector2(0.0f);
+    XY = Vector2();
     
     if (currentKeyStates[SDL_SCANCODE_UP])      XY.Y -= 1.0f;
     if (currentKeyStates[SDL_SCANCODE_DOWN])    XY.Y += 1.0f;
@@ -141,7 +141,7 @@ int main(int argc, char* argv[])
             XY = lastDash;
         }
 
-        position += XY * Vector2(dashSpeed * speed * delta);
+        position += XY * (dashSpeed * speed * delta);
 
         SDL_FRect rect{};
 
