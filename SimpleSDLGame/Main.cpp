@@ -1,7 +1,9 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <chrono>
+
 #include "Vectors.h"
+#include "Rect.h"
 
 typedef std::chrono::high_resolution_clock Clock;
 
@@ -143,14 +145,12 @@ int main(int argc, char* argv[])
 
         position += XY * (dashSpeed * speed * delta);
 
-        SDL_FRect rect{};
+        Rect player = Rect();
 
-        rect.x = position.X;
-        rect.y = position.Y;
-        rect.w = rectSize;
-        rect.h = rectSize;
+        player.SetRectLocation(position);
+        player.SetRectSize(rectSize);
 
-        SDL_RenderRect(renderer, &rect);
+        SDL_RenderRect(renderer, &player.rect);
 
         SDL_RenderPresent(renderer);
     }
