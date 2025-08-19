@@ -11,3 +11,8 @@ void Rect::SetRectSize(Vector2 newSize)
 	rect.w = newSize.X;
 	rect.h = newSize.Y;
 }
+
+Vector2 Rect::GetRectLocation()
+{
+	return Vector2(rect.x, rect.y);
+}

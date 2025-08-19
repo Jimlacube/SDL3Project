@@ -23,5 +23,7 @@ public:
 
 	void SetRectLocation(Vector2 newLocation);
 	void SetRectSize(Vector2 newSize);
+
+	Vector2 GetRectLocation();
 };
 

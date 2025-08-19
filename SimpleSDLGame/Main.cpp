@@ -1,11 +1,13 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <chrono>
+#include <vector>
 
 #include "Vectors.h"
 #include "Rect.h"
 
 typedef std::chrono::high_resolution_clock Clock;
+using std::vector;
 
 Vector2 XY = Vector2();
 
@@ -14,6 +16,10 @@ bool bDashReady;
 float dashDistance;
 float dashTimeRemaining = 0.0f;
 Vector2 lastDash = Vector2();
+
+Rect player = Rect();
+
+vector<Rect*> Spawnables = {nullptr};
 
 static void StartDash()
 {
@@ -53,6 +59,31 @@ static float UpdateDashSpeed(float delta ,float timeToComplete = 0.3f)
     }
 }
 
+void SpawnRect(Vector2 spawnLocation)
+{
+    float size = 20.0f;
+    //TODO delete this memory when it's no longer used
+    
+    //TODO reduce size of the vector to free up iterations 
+    //Add spawnable to next free slot
+    int num = 0;
+    for (auto i: Spawnables)
+    {
+        if (i == nullptr)
+        {
+            Spawnables[num] = new Rect(spawnLocation.X, spawnLocation.Y, size, size);
+            break;
+        }
+        num++;        
+    }
+    //If the end of the vector has been reached add a new element
+    if (num == Spawnables.size())
+    {
+        Rect *lastSlotSpawnable = new Rect(spawnLocation.X, spawnLocation.Y, size, size);
+        Spawnables.push_back(lastSlotSpawnable);           
+    }  
+}
+
 static void KeyStateUpdate()
 {
     const bool* currentKeyStates = SDL_GetKeyboardState(nullptr);
@@ -68,6 +99,8 @@ static void KeyStateUpdate()
     if (currentKeyStates[SDL_SCANCODE_SPACE])
     {
         StartDash();
+
+        SpawnRect(player.GetRectLocation());
     }
     else
     {
@@ -85,10 +118,13 @@ int main(int argc, char* argv[])
     SDL_Init(SDL_INIT_VIDEO);              // Initialize SDL3
 
     // Create an application window with the following settings:
+    int screenWidth = 640;
+    int screenHeight = 480;
+
     window = SDL_CreateWindow(
         "An SDL3 window",
-        640,
-        480,
+        screenWidth,
+        screenHeight,
         SDL_WINDOW_OPENGL
     );
 
@@ -126,15 +162,14 @@ int main(int argc, char* argv[])
             if (event.type == SDL_EVENT_QUIT) 
                 done = true;
         }
-
-        KeyStateUpdate();
         
         //Setup rendering 
         SDL_RenderClear(renderer);
 
         SDL_SetRenderDrawColor(renderer, 255, 255, 0, 1);
         SDL_RenderClear(renderer);
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 1);
+        
+        KeyStateUpdate();
 
         dashSpeed = UpdateDashSpeed(delta);
 
@@ -143,14 +178,36 @@ int main(int argc, char* argv[])
             XY = lastDash;
         }
 
-        position += XY * (dashSpeed * speed * delta);
+        //Iterate through all the spawnables and render them
+        for (Rect* rect : Spawnables)
+        {
+            if (rect != nullptr)
+            {
+                SDL_SetRenderDrawColor(renderer, 0, 255, 0, 1);
+                //Unsure if this cast is correct
+                SDL_RenderRect(renderer, (const SDL_FRect*)rect);
 
-        Rect player = Rect();
+                Vector2 rectLocation = rect->GetRectLocation();
+                rect->SetRectLocation(Vector2(rectLocation.X, rectLocation.Y + 5.0f));
+
+                //Delete rects when they go off screen
+                if (rect->GetRectLocation().Y > screenHeight + 20.0f)
+                {
+                    //QUESTION: is this freeing it up from memory correctly 
+                    // using the default deconstructor
+                    rect->~Rect();
+                }
+            }
+        }
+
+        position += XY * (dashSpeed * speed * delta);        
 
         player.SetRectLocation(position);
         player.SetRectSize(rectSize);
 
-        SDL_RenderRect(renderer, &player.rect);
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 1);
+
+        SDL_RenderRect(renderer, &player.rect);        
 
         SDL_RenderPresent(renderer);
     }
