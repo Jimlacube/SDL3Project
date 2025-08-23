@@ -19,7 +19,17 @@ Vector2 lastDash = Vector2();
 
 Rect player = Rect();
 
-vector<Rect*> Spawnables = {nullptr};
+vector<Rect*> Spawnables;
+
+SDL_FRect ConvertRect(Rect rect)
+{
+    SDL_FRect outputRect;
+    outputRect.x = rect.X;
+    outputRect.y = rect.Y;
+    outputRect.w = rect.W;
+    outputRect.h = rect.H;
+    return outputRect;
+}
 
 static void StartDash()
 {
@@ -62,26 +72,9 @@ static float UpdateDashSpeed(float delta ,float timeToComplete = 0.3f)
 void SpawnRect(Vector2 spawnLocation)
 {
     float size = 20.0f;
-    //TODO delete this memory when it's no longer used
-    
-    //TODO reduce size of the vector to free up iterations 
-    //Add spawnable to next free slot
-    int num = 0;
-    for (auto i: Spawnables)
-    {
-        if (i == nullptr)
-        {
-            Spawnables[num] = new Rect(spawnLocation.X, spawnLocation.Y, size, size);
-            break;
-        }
-        num++;        
-    }
-    //If the end of the vector has been reached add a new element
-    if (num == Spawnables.size())
-    {
-        Rect *lastSlotSpawnable = new Rect(spawnLocation.X, spawnLocation.Y, size, size);
-        Spawnables.push_back(lastSlotSpawnable);           
-    }  
+
+    Rect* newRect = new Rect(spawnLocation.X, spawnLocation.Y, size, size);
+    Spawnables.push_back(newRect);
 }
 
 static void KeyStateUpdate()
@@ -178,13 +171,13 @@ int main(int argc, char* argv[])
             XY = lastDash;
         }
 
-        //Iterate through all the spawnables and render them
-        for (Rect* rect : Spawnables)
+        for (int i = 0; i < Spawnables.size(); ++i)
         {
+            Rect* rect = Spawnables[i];
+
             if (rect != nullptr)
             {
                 SDL_SetRenderDrawColor(renderer, 0, 255, 0, 1);
-                //Unsure if this cast is correct
                 SDL_RenderRect(renderer, (const SDL_FRect*)rect);
 
                 Vector2 rectLocation = rect->GetRectLocation();
@@ -193,9 +186,11 @@ int main(int argc, char* argv[])
                 //Delete rects when they go off screen
                 if (rect->GetRectLocation().Y > screenHeight + 20.0f)
                 {
-                    //QUESTION: is this freeing it up from memory correctly 
-                    // using the default deconstructor
-                    rect->~Rect();
+                    delete rect;
+                    rect = nullptr;
+                    Spawnables[i] = Spawnables[Spawnables.size() - 1];
+                    Spawnables.pop_back();
+                    --i;
                 }
             }
         }
@@ -207,7 +202,10 @@ int main(int argc, char* argv[])
 
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 1);
 
-        SDL_RenderRect(renderer, &player.rect);        
+        SDL_FRect localPlayer{};
+        localPlayer = ConvertRect(player);
+
+        SDL_RenderRect(renderer, &localPlayer);
 
         SDL_RenderPresent(renderer);
     }

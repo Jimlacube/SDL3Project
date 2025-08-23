@@ -2,17 +2,17 @@
 
 void Rect::SetRectLocation(Vector2 newLocation)
 {
-	rect.x = newLocation.X;
-	rect.y = newLocation.Y;
+	X = newLocation.X;
+	Y = newLocation.Y;
 }
 
 void Rect::SetRectSize(Vector2 newSize)
 {
-	rect.w = newSize.X;
-	rect.h = newSize.Y;
+	W = newSize.X;
+	H = newSize.Y;
 }
 
 Vector2 Rect::GetRectLocation()
 {
-	return Vector2(rect.x, rect.y);
+	return Vector2(X, Y);
 }
