@@ -7,6 +7,7 @@
 #include "Rect.h"
 #include "Player.h"
 #include "EntityManager.h"
+#include "Utilities.h"
 
 typedef std::chrono::high_resolution_clock Clock;
 using std::vector;
@@ -25,16 +26,6 @@ Player* player = new Player();
 
 //TODO remove for entity based system
 vector<Rect*> Spawnables;
-
-SDL_FRect ConvertRect(Rect rect)
-{
-    SDL_FRect outputRect;
-    outputRect.x = rect.X;
-    outputRect.y = rect.Y;
-    outputRect.w = rect.W;
-    outputRect.h = rect.H;
-    return outputRect;
-}
 
 void SpawnRect(Vector2 spawnLocation)
 {
@@ -126,12 +117,22 @@ int main(int argc, char* argv[])
         auto n = EntityManager::GetEntities().size();
         printf("%zd \n", n);
 
+        vector<Entity*> Entities = EntityManager::GetEntities();
+        for (Entity* Entity : Entities)
+        {
+            if (!Entity->bIsPendingDestroy)
+            {
+                Entity->Update(delta);
+                Entity->Render(renderer);
+            }
+        }
+
         player->Update(delta);
 
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 1);
 
         SDL_FRect localPlayer{};
-        localPlayer = ConvertRect(player->playerRect);
+        localPlayer = Utilities::ConvertRect(player->playerRect);
 
         SDL_RenderRect(renderer, &localPlayer);
 

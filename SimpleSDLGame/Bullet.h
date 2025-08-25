@@ -1,8 +1,8 @@
 #pragma once
-#include "Entity.h"
+#include "Object.h"
 #include "Rect.h"
 
-class Bullet : public Entity
+class Bullet : public Object
 {
 public:
 	//Public functions
@@ -12,8 +12,10 @@ public:
 	}
 	
 	void Init() override;
+	void Render(SDL_Renderer* renderer) override;
 	void Update(float delta) override;
 
 	Rect bulletRect = Rect();
+	float bulletSize = 20.0f;
 };
 

@@ -1,9 +1,9 @@
 #pragma once
-#include "Entity.h"
+#include "Object.h"
 
 #include"Rect.h"
 
-class Player : public Entity
+class Player : public Object
 {
 public:
 	

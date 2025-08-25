@@ -45,7 +45,7 @@ void Player::KeyStateUpdate()
         StartDash();
     //TODO implement spawning rectangles
         Bullet* bullet = (Bullet*)EntityManager::SpawnEntity();
-        bullet->bulletRect.SetRectLocation(playerRect.GetRectLocation());
+        //bullet->bulletRect.SetRectLocation(playerRect.GetRectLocation());
     }
     else
     {
