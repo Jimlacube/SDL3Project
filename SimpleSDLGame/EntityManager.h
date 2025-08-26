@@ -12,7 +12,9 @@ public:
 	EntityManager();
 	~EntityManager() = default;
 
-	static Entity* SpawnEntity();
+	static void AddEntity(Entity* newEntity);
+
+	static void CheckForPendingDestroy();
 
 	static vector<Entity*> GetEntities();
 };

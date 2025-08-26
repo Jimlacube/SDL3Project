@@ -5,8 +5,11 @@
 class Utilities
 {
 public:
-	Utilities() = default;
+	Utilities();
 
 	static SDL_FRect ConvertRect(Rect rect);
+
+	static Vector2_int GetScreenBounds();
+
 };
 

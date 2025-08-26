@@ -14,6 +14,7 @@ public:
 	}
 
 	void Init() override;
+	void Render(SDL_Renderer* renderer) override;
 	void Update(float delta) override;
 
 	//Public variables

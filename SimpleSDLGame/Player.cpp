@@ -6,11 +6,27 @@
 #include "Vectors.h"
 #include "EntityManager.h"
 #include "Bullet.h"
+#include "Utilities.h"
 
 void Player::Init()
 {
     playerRect.SetRectSize(rectSize);
     position = Vector2(200.0f);
+}
+
+void Player::Render(SDL_Renderer* renderer)
+{
+    if (!renderer)
+    {
+        return;
+    }
+
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 1);
+
+    SDL_FRect localPlayer{};
+    localPlayer = Utilities::ConvertRect(playerRect);
+
+    SDL_RenderRect(renderer, &localPlayer);
 }
 
 void Player::Update(float delta)
@@ -44,8 +60,9 @@ void Player::KeyStateUpdate()
     {
         StartDash();
     //TODO implement spawning rectangles
-        Bullet* bullet = (Bullet*)EntityManager::SpawnEntity();
-        //bullet->bulletRect.SetRectLocation(playerRect.GetRectLocation());
+        Bullet* bullet = new Bullet();
+        EntityManager::AddEntity(bullet);
+        bullet->bulletRect.SetRectLocation(playerRect.GetRectLocation());
     }
     else
     {

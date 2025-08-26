@@ -16,6 +16,10 @@ public:
 	void Update(float delta) override;
 
 	Rect bulletRect = Rect();
+	//TODO create a getter for rect size
 	float bulletSize = 20.0f;
+
+protected:
+	bool bIsOutOfBounds();
 };
 
