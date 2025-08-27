@@ -4,7 +4,7 @@
 void Bullet::Init()
 {
 	bulletRect.SetRectSize(bulletSize);
-	bulletRect.SetRectLocation(50.0f);
+	newPosition = bulletRect.GetRectLocation();
 }
 
 void Bullet::Render(SDL_Renderer* renderer)
@@ -23,11 +23,19 @@ void Bullet::Render(SDL_Renderer* renderer)
 
 void Bullet::Update(float delta)
 {
-	bulletRect.SetRectLocation(Vector2(bulletRect.X, bulletRect.Y + 5.0f));
+	bulletRect.SetRectLocation(newPosition);
+	newPosition = bulletRect.GetRectLocation();
+	newPosition += initDirection * bulletSpeed;
+
 	if (bIsOutOfBounds())
 	{
 		Destroy();
 	}
+}
+
+void Bullet::SetDirection(Vector2 direction)
+{
+	initDirection = direction;
 }
 
 bool Bullet::bIsOutOfBounds()

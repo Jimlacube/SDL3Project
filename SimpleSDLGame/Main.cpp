@@ -67,6 +67,7 @@ int main(int argc, char* argv[])
         auto n = EntityManager::GetEntities().size();
         printf("%zd \n", n);
 
+        //Entity update
         vector<Entity*> Entities = EntityManager::GetEntities();
         for (Entity* Entity : Entities)
         {
@@ -77,6 +78,7 @@ int main(int argc, char* argv[])
             }
         }
 
+        //Player update
         player->Update(delta);
         player->Render(renderer);        
 

@@ -1,6 +1,5 @@
 #pragma once
 #include "Object.h"
-
 #include"Rect.h"
 
 class Player : public Object

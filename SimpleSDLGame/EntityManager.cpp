@@ -7,13 +7,6 @@ EntityManager::EntityManager()
     
 }
 
-//Entity* EntityManager::SpawnEntity()
-//{
-//    Entity* newEntity = new Entity();
-//    Entities.push_back(newEntity);
-//    return newEntity;
-//}
-
 void EntityManager::AddEntity(Entity* newEntity)
 {
     Entities.push_back(newEntity);

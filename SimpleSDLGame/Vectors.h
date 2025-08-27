@@ -76,7 +76,10 @@ inline Vector2_base<T> operator-(const Vector2_base<T>& a, const Vector2_base<T>
 template <typename T>
 inline Vector2_base<T> operator*(const Vector2_base<T>& a, const Vector2_base<T>& b)
 {
-	return a *= b;
+	Vector2 c;
+	c.X = a.X * b.X;
+	c.Y = a.Y * b.Y;
+	return c;
 }
 
 template <typename T>

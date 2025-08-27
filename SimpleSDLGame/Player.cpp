@@ -60,9 +60,14 @@ void Player::KeyStateUpdate()
     {
         StartDash();
     //TODO implement spawning rectangles
-        Bullet* bullet = new Bullet();
-        EntityManager::AddEntity(bullet);
-        bullet->bulletRect.SetRectLocation(playerRect.GetRectLocation());
+        if (!(InputXY.X == 0.0f && InputXY.Y == 0.0f))
+        {
+            Bullet* bullet = new Bullet();
+            EntityManager::AddEntity(bullet);
+            bullet->bulletRect.SetRectLocation(playerRect.GetRectLocation());
+            bullet->SetDirection(InputXY);
+            bullet->Init();
+        }
     }
     else
     {
