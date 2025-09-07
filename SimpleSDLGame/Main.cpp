@@ -74,13 +74,20 @@ int main(int argc, char* argv[])
             if (!Entity->bIsPendingDestroy)
             {
                 Entity->Update(delta);
-                Entity->Render(renderer);
             }
         }
 
+        for (Entity* Entity : Entities)
+        {
+            if (!Entity->bIsPendingDestroy)
+            {
+                Entity->Render(*renderer);
+            }
+        }
+        //TODO add player to the entities system
         //Player update
         player->Update(delta);
-        player->Render(renderer);        
+        player->Render(*renderer);        
 
         SDL_RenderPresent(renderer);
 

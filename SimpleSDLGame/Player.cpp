@@ -2,6 +2,7 @@
 
 #include <SDL3/SDL_scancode.h>
 #include <SDL3/SDL_keyboard.h>
+#include <SDL3/SDL_render.h>
 
 #include "Vectors.h"
 #include "EntityManager.h"
@@ -14,19 +15,20 @@ void Player::Init()
     position = Vector2(200.0f);
 }
 
-void Player::Render(SDL_Renderer* renderer)
+void Player::Render(struct SDL_Renderer& renderer)
 {
-    if (!renderer)
+    SDL_Renderer* localRenderer = &renderer;
+    if (!localRenderer)
     {
         return;
     }
 
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 1);
+    SDL_SetRenderDrawColor(localRenderer, 255, 0, 0, 1);
 
     SDL_FRect localPlayer{};
     localPlayer = Utilities::ConvertRect(playerRect);
 
-    SDL_RenderRect(renderer, &localPlayer);
+    SDL_RenderRect(localRenderer, &localPlayer);
 }
 
 void Player::Update(float delta)
@@ -62,8 +64,9 @@ void Player::KeyStateUpdate()
     //TODO implement spawning rectangles
         if (!(InputXY.X == 0.0f && InputXY.Y == 0.0f))
         {
-            Bullet* bullet = new Bullet();
-            EntityManager::AddEntity(bullet);
+            Bullet* bullet = EntityManager::Spawn<Bullet>();
+
+            //TODO add this to constructor for bullet
             bullet->bulletRect.SetRectLocation(playerRect.GetRectLocation());
             bullet->SetDirection(InputXY);
             bullet->Init();

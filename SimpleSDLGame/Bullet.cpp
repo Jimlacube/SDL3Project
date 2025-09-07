@@ -1,3 +1,5 @@
+#include <SDL3/SDL_render.h>
+
 #include "Bullet.h"
 #include "Utilities.h"
 
@@ -7,18 +9,19 @@ void Bullet::Init()
 	newPosition = bulletRect.GetRectLocation();
 }
 
-void Bullet::Render(SDL_Renderer* renderer)
+void Bullet::Render(struct SDL_Renderer& renderer)
 {
-	if (!renderer)
+	SDL_Renderer* localRenderer = &renderer;
+	if (!localRenderer)
 	{
 		return;
 	}
 
-	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 1);
+	SDL_SetRenderDrawColor(localRenderer, 0, 255, 0, 1);
 
 	SDL_FRect localBullet{};
 	localBullet = Utilities::ConvertRect(bulletRect);
-	SDL_RenderRect(renderer, &localBullet);
+	SDL_RenderRect(localRenderer, &localBullet);
 }
 
 void Bullet::Update(float delta)

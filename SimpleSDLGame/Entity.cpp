@@ -5,7 +5,7 @@ void Entity::Init()
 
 }
 
-void Entity::Render(SDL_Renderer* renderer)
+void Entity::Render(struct SDL_Renderer& renderer)
 {
 }
 

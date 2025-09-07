@@ -3,19 +3,28 @@
 
 #include "Entity.h"
 
-using std::vector;
 
 class EntityManager
 {
-	static vector<Entity*> Entities;
+	static std::vector<Entity*> Entities;
 public:
 	EntityManager();
 	~EntityManager() = default;
 
-	static void AddEntity(Entity* newEntity);
-
 	static void CheckForPendingDestroy();
 
-	static vector<Entity*> GetEntities();
+	static std::vector<Entity*> GetEntities();
+
+	template<class T>
+	static T* Spawn()
+	{
+		//TODO change for smart pointer
+		T* ent = new T();
+		AddEntity(ent);
+		return ent;
+	}
+
+private:
+	static void AddEntity(Entity* newEntity);
 };
 

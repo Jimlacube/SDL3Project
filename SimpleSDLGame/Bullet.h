@@ -12,7 +12,7 @@ public:
 	}
 	
 	void Init() override;
-	void Render(SDL_Renderer* renderer) override;
+	void Render(struct SDL_Renderer& renderer) override;
 	void Update(float delta) override;
 
 	void SetDirection(Vector2 direction);

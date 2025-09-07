@@ -1,6 +1,6 @@
 #pragma once
 #include "Object.h"
-#include"Rect.h"
+#include "Rect.h"
 
 class Player : public Object
 {
@@ -13,7 +13,7 @@ public:
 	}
 
 	void Init() override;
-	void Render(SDL_Renderer* renderer) override;
+	void Render(struct SDL_Renderer& renderer) override;
 	void Update(float delta) override;
 
 	//Public variables

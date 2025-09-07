@@ -1,11 +1,18 @@
 #include "EntityManager.h"
 
-vector<Entity*> EntityManager::Entities;
+std::vector<Entity*> EntityManager::Entities;
 
 EntityManager::EntityManager()
 {
     
 }
+
+//void EntityManager::SpawnEntity(Entity* newEntity)
+//{
+//    Entity* ent = new Entity();
+//    //Bullet* bullet = new Bullet();
+//    EntityManager::AddEntity(ent);
+//}
 
 void EntityManager::AddEntity(Entity* newEntity)
 {
@@ -28,7 +35,7 @@ void EntityManager::CheckForPendingDestroy()
     }
 }
 
-vector<Entity*> EntityManager::GetEntities()
+std::vector<Entity*> EntityManager::GetEntities()
 {
     return Entities;
 }
