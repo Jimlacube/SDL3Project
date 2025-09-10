@@ -6,7 +6,6 @@ class Object : public Entity
 {
 public:
 	Object();
-	~Object() = default;
 
 	Object(Vector2 pos);
 

@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
 
+#include "Bullet.h"
 #include "Entity.h"
-
 
 class EntityManager
 {
@@ -22,6 +22,14 @@ public:
 		T* ent = new T();
 		AddEntity(ent);
 		return ent;
+	}
+	//using BulletSpawn = Spawn<Bullet>();
+	
+	static Bullet* Spawn(Vector2 pos)
+	{
+		Bullet* bullet = new Bullet(pos);
+		AddEntity(bullet);
+		return bullet;
 	}
 
 private:

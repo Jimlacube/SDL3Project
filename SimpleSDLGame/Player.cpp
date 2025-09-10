@@ -64,8 +64,9 @@ void Player::KeyStateUpdate()
     //TODO implement spawning rectangles
         if (!(InputXY.X == 0.0f && InputXY.Y == 0.0f))
         {
+            
             Bullet* bullet = EntityManager::Spawn<Bullet>();
-
+            
             //TODO add this to constructor for bullet
             bullet->bulletRect.SetRectLocation(playerRect.GetRectLocation());
             bullet->SetDirection(InputXY);

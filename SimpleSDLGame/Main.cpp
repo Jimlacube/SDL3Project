@@ -40,6 +40,9 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+    //Create player
+    Player* player = EntityManager::Spawn<Player>();
+    
     //Calculate delta
     Clock::time_point prevTime;
     float delta;
@@ -76,18 +79,14 @@ int main(int argc, char* argv[])
                 Entity->Update(delta);
             }
         }
-
+        //Entity render
         for (Entity* Entity : Entities)
         {
             if (!Entity->bIsPendingDestroy)
             {
                 Entity->Render(*renderer);
             }
-        }
-        //TODO add player to the entities system
-        //Player update
-        player->Update(delta);
-        player->Render(*renderer);        
+        }      
 
         SDL_RenderPresent(renderer);
 

@@ -10,6 +10,10 @@ public:
 	{
 		Init();
 	}
+	Bullet(Vector2 pos) : Object(pos)
+	{
+		position = pos;
+	}
 	
 	void Init() override;
 	void Render(struct SDL_Renderer& renderer) override;
