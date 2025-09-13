@@ -7,20 +7,13 @@ class Player : public Object
 public:
 	
 	//Public functions
-	Player() 
-	{
-		Init();
-	}
-
-	void Init() override;
+	Player();
+		
 	void Render(struct SDL_Renderer& renderer) override;
 	void Update(float delta) override;
 
 	//Public variables
 	Rect playerRect = Rect();
-
-protected:
-
 
 private:
 
@@ -35,8 +28,6 @@ private:
 
 	float rectSize = 20.0f;
 	float speed = 100.0f;
-
-	Vector2 position;
 
 	//Dash
 	bool bIsDashing;

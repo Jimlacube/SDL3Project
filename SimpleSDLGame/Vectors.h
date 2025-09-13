@@ -22,7 +22,31 @@ public:
 		X = xy;
 		Y = xy;
 	}
-
+	
+	inline Vector2_base<T> operator +=(Vector2_base<T> b)
+	{
+		X = X + b.X;
+		Y = Y + b.Y;
+		return Vector2_base<T>(X, Y);
+	}
+	inline Vector2_base<T> operator -=(Vector2_base<T> b)
+	{
+		X = X - b.X;
+		Y = Y - b.Y;
+		return Vector2_base<T>(X, Y);
+	}
+	inline Vector2_base<T> operator *=(Vector2_base<T> b)
+	{
+		X = X * b.X;
+		Y = Y * b.Y;
+		return Vector2_base<T>(X, Y);
+	}
+	inline Vector2_base<T> operator /=(Vector2_base<T> b)
+	{
+		X = X / b.X;
+		Y = Y / b.Y;
+		return Vector2_base<T>(X, Y);
+	}
 };
 
 using Vector2 = Vector2_base<float>;
@@ -30,68 +54,31 @@ using Vector2_double = Vector2_base<double>;
 using Vector2_int = Vector2_base<int>;
 
 template <typename T>
-inline Vector2_base<T>& operator +=(Vector2_base<T>& a, const Vector2_base<T>& b)
-{
-	a.X += b.X;
-	a.Y += b.Y;
-	return a;
-};
-
-template <typename T>
-inline Vector2_base<T>& operator -=(Vector2_base<T>& a, const Vector2_base<T>& b)
-{
-	a.X -= b.X;
-	a.Y -= b.Y;
-	return a;
-};
-
-template <typename T>
-inline Vector2_base<T>& operator *=(Vector2_base<T>& a, const Vector2_base<T>& b)
-{
-	a.X *= b.X;
-	a.Y *= b.Y;
-	return a;
-};
-
-template <typename T>
-inline Vector2_base<T>& operator /=(Vector2_base<T>& a, const Vector2_base<T>& b)
-{
-	a.X /= b.X;
-	a.Y /= b.Y;
-	return a;
-};
-
-template <typename T>
 inline Vector2_base<T> operator+(const Vector2_base<T>& a, const Vector2_base<T>& b)
 {
-	return a += b;
+	return Vector2_base<T>{ a } += b;
 }
 
 template <typename T>
 inline Vector2_base<T> operator-(const Vector2_base<T>& a, const Vector2_base<T>& b)
 {
-	return a -= b;
+	return Vector2_base<T>{ a } -= b;
 }
 
 template <typename T>
 inline Vector2_base<T> operator*(const Vector2_base<T>& a, const Vector2_base<T>& b)
 {
-	Vector2 c;
-	c.X = a.X * b.X;
-	c.Y = a.Y * b.Y;
-	return c;
+	return Vector2_base<T>{ a } *= b;
 }
 
 template <typename T>
-inline Vector2_base<T> operator*(Vector2_base<T>& a, const float b)
+inline Vector2_base<T> operator*(const Vector2_base<T>& a, const float b)
 {
-	a.X *= b;
-	a.Y *= b;
-	return a;
+	return Vector2_base<T>(a.X * b, a.Y * b);
 }
 
 template <typename T>
 inline Vector2_base<T> operator/(const Vector2_base<T>& a, const Vector2_base<T>& b)
 {
-	return a /= b;
+	return Vector2_base<T>{ a } /= b;
 }

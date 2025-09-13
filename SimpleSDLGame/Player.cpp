@@ -9,10 +9,9 @@
 #include "Bullet.h"
 #include "Utilities.h"
 
-void Player::Init()
+Player::Player()
 {
     playerRect.SetRectSize(rectSize);
-    position = Vector2(200.0f);
 }
 
 void Player::Render(struct SDL_Renderer& renderer)
@@ -40,7 +39,7 @@ void Player::Update(float delta)
 
     KeyStateUpdate();
     dashSpeed = UpdateDashSpeed(delta);
-
+    
     position += InputXY * (dashSpeed * speed * delta);
     playerRect.SetRectLocation(position);
 }
@@ -56,7 +55,6 @@ void Player::KeyStateUpdate()
     if (currentKeyStates[SDL_SCANCODE_LEFT])    InputXY.X -= 1.0f;
     if (currentKeyStates[SDL_SCANCODE_RIGHT])   InputXY.X += 1.0f;
 
-
     //Trigger dash when pressed. Reset dash when the key is released
     if (currentKeyStates[SDL_SCANCODE_SPACE])
     {
@@ -64,13 +62,7 @@ void Player::KeyStateUpdate()
     //TODO implement spawning rectangles
         if (!(InputXY.X == 0.0f && InputXY.Y == 0.0f))
         {
-            
-            Bullet* bullet = EntityManager::Spawn<Bullet>();
-            
-            //TODO add this to constructor for bullet
-            bullet->bulletRect.SetRectLocation(playerRect.GetRectLocation());
-            bullet->SetDirection(InputXY);
-            bullet->Init();
+            EntityManager::Create<Bullet>(playerRect.GetRectLocation(),InputXY);
         }
     }
     else

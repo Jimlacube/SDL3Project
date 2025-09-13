@@ -3,18 +3,12 @@
 class Entity
 {
 public:
-
-	Entity()
-	{
-		Init();
-	}
+	Entity();
 	~Entity() = default;
 
 	bool bIsPendingDestroy = false;
 
-	virtual void Init();
 	virtual void Render(struct SDL_Renderer& renderer);
 	virtual void Update(float delta);
 	virtual void Destroy();
-
 };

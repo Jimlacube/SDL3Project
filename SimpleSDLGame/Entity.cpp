@@ -1,8 +1,7 @@
 #include "Entity.h"
 
-void Entity::Init()
+Entity::Entity()
 {
-
 }
 
 void Entity::Render(struct SDL_Renderer& renderer)

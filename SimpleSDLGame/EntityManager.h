@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 
-#include "Bullet.h"
 #include "Entity.h"
 
 class EntityManager
@@ -15,24 +14,17 @@ public:
 
 	static std::vector<Entity*> GetEntities();
 
-	template<class T>
-	static T* Spawn()
-	{
-		//TODO change for smart pointer
-		T* ent = new T();
-		AddEntity(ent);
-		return ent;
-	}
-	//using BulletSpawn = Spawn<Bullet>();
+	///TODO add inline file
+	template<class T, class... Args>
+	static T* Create(Args... args);
 	
-	static Bullet* Spawn(Vector2 pos)
-	{
-		Bullet* bullet = new Bullet(pos);
-		AddEntity(bullet);
-		return bullet;
-	}
-
-private:
-	static void AddEntity(Entity* newEntity);
 };
+
+template <class T, class... Args>
+T* EntityManager::Create(Args... args)
+{
+	T* ent = new T(args...);
+	Entities.push_back(ent);
+	return ent;
+}
 

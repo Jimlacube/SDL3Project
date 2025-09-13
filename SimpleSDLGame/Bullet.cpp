@@ -3,12 +3,6 @@
 #include "Bullet.h"
 #include "Utilities.h"
 
-void Bullet::Init()
-{
-	bulletRect.SetRectSize(bulletSize);
-	newPosition = bulletRect.GetRectLocation();
-}
-
 void Bullet::Render(struct SDL_Renderer& renderer)
 {
 	SDL_Renderer* localRenderer = &renderer;
@@ -19,16 +13,14 @@ void Bullet::Render(struct SDL_Renderer& renderer)
 
 	SDL_SetRenderDrawColor(localRenderer, 0, 255, 0, 1);
 
-	SDL_FRect localBullet{};
-	localBullet = Utilities::ConvertRect(bulletRect);
+	SDL_FRect localBullet = Utilities::ConvertRect(bulletRect);
 	SDL_RenderRect(localRenderer, &localBullet);
 }
 
 void Bullet::Update(float delta)
 {
-	bulletRect.SetRectLocation(newPosition);
-	newPosition = bulletRect.GetRectLocation();
-	newPosition += initDirection * bulletSpeed;
+	position += velocity * delta;
+	bulletRect.SetRectLocation(position);
 
 	if (bIsOutOfBounds())
 	{
@@ -36,17 +28,12 @@ void Bullet::Update(float delta)
 	}
 }
 
-void Bullet::SetDirection(Vector2 direction)
-{
-	initDirection = direction;
-}
-
 bool Bullet::bIsOutOfBounds()
 {
 	float boundsOuter = bulletSize + 10.0f;
 	Vector2 position = bulletRect.GetRectLocation();
 	Vector2_int bounds = Utilities::GetScreenBounds();
-	if (position.Y < -boundsOuter || position.Y > bounds.Y + boundsOuter || position.X < -boundsOuter || position.X > bounds.X + boundsOuter)
+	if (position.Y < -boundsOuter || position.Y > (float)bounds.Y + boundsOuter || position.X < -boundsOuter || position.X > (float)bounds.X + boundsOuter)
 	{
 		return true;
 	}

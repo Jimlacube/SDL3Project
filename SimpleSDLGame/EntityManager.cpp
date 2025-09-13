@@ -7,11 +7,6 @@ EntityManager::EntityManager()
     
 }
 
-void EntityManager::AddEntity(Entity* newEntity)
-{
-    Entities.push_back(newEntity);
-}
-
 void EntityManager::CheckForPendingDestroy()
 {
     for (int i = 0; i < Entities.size(); ++i)

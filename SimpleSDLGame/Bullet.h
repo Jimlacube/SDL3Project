@@ -4,33 +4,31 @@
 
 class Bullet : public Object
 {
-public:
 	//Public functions
-	Bullet()
+public:
+	Bullet() = delete;
+	Bullet(Vector2 pos, Vector2 dir) : Object(pos, dir)
 	{
-		Init();
+		bulletRect.SetRectSize(bulletSize);
+		
+		//TODO swap this out for velocity
+		const float bulletSpeed = 50.0f;
+		velocity = dir * bulletSpeed;
+		position = pos;		
 	}
-	Bullet(Vector2 pos) : Object(pos)
-	{
-		position = pos;
-	}
-	
-	void Init() override;
+
 	void Render(struct SDL_Renderer& renderer) override;
 	void Update(float delta) override;
 
-	void SetDirection(Vector2 direction);
+//	void SetDirection(Vector2 direction);
 
 	Rect bulletRect = Rect();
-	//TODO create a getter for rect size
-	float bulletSize = 20.0f;
-	float bulletSpeed = 1.01f;
+	const float bulletSize = 20.0f;
 
 protected:
 	bool bIsOutOfBounds();
 
-	Vector2 initDirection = Vector2(1.0f);
-	Vector2 newPosition = Vector2(0.0f);
-
+	Vector2 direction = Vector2(1.0f);
+	Vector2 velocity = 0.0f;
 };
 

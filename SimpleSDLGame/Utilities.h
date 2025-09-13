@@ -11,5 +11,6 @@ public:
 
 	static Vector2_int GetScreenBounds();
 
+	void Test();
 };
 

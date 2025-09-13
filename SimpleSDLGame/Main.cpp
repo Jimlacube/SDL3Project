@@ -10,10 +10,8 @@
 typedef std::chrono::high_resolution_clock Clock;
 using std::vector;
 
-Player* player = new Player();
-
 int main(int argc, char* argv[])
-{
+{    
     SDL_Window* window = nullptr;
     static SDL_Renderer* renderer = nullptr;
 
@@ -41,7 +39,7 @@ int main(int argc, char* argv[])
     }
 
     //Create player
-    Player* player = EntityManager::Spawn<Player>();
+    Player* player = EntityManager::Create<Player>();
     
     //Calculate delta
     Clock::time_point prevTime;
@@ -67,8 +65,8 @@ int main(int argc, char* argv[])
         SDL_RenderClear(renderer);
 
         //Print number of entities
-        auto n = EntityManager::GetEntities().size();
-        printf("%zd \n", n);
+        //auto n = EntityManager::GetEntities().size();
+        //printf("%zd \n", n);
 
         //Entity update
         vector<Entity*> Entities = EntityManager::GetEntities();
