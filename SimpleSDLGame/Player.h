@@ -23,6 +23,8 @@ private:
 	void StartDash();
 	float UpdateDashSpeed(float delta, float timeToComplete = 0.3f);
 
+	void UpdateFiringCooldown(float delta);
+
 	//Private variables
 	Vector2 InputXY = Vector2();
 
@@ -36,5 +38,13 @@ private:
 	float dashDistance = 0.0f;
 	float dashTimeRemaining = 0.0f;
 	Vector2 lastDash = Vector2();
+
+	//Direction
+	Vector2 lastInputDir = Vector2(1.0f,0.0f);
+
+	//Firing
+	bool bIsFiring = false;
+	const float firingCooldown = 0.5f;
+	float firingTimeRemaining;
 };
 

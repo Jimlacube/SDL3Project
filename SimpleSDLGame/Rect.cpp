@@ -12,6 +12,14 @@ void Rect::SetRectSize(Vector2 newSize)
 	H = newSize.Y;
 }
 
+void Rect::SetRectSizeCenter(Vector2 newSize)
+{
+	Vector2 oldSize = Vector2(W, H);
+	SetRectSize(newSize);
+	Vector2 dif = oldSize * 0.5f - newSize * 0.5f;
+	SetRectLocation(GetRectLocation() + dif);
+}
+
 Vector2 Rect::GetRectLocation()
 {
 	return Vector2(X, Y);

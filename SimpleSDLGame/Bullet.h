@@ -11,8 +11,7 @@ public:
 	{
 		bulletRect.SetRectSize(bulletSize);
 		
-		//TODO swap this out for velocity
-		const float bulletSpeed = 50.0f;
+		const float bulletSpeed = 300.0f;
 		velocity = dir * bulletSpeed;
 		position = pos;		
 	}
@@ -20,15 +19,17 @@ public:
 	void Render(struct SDL_Renderer& renderer) override;
 	void Update(float delta) override;
 
-//	void SetDirection(Vector2 direction);
+	void Explode(float delta);
 
 	Rect bulletRect = Rect();
-	const float bulletSize = 20.0f;
+	float bulletSize = 20.0f;
+	
+	float lifetime = 3.0f;
+	float explodeTime = 0.3f;
 
 protected:
 	bool bIsOutOfBounds();
-
-	Vector2 direction = Vector2(1.0f);
-	Vector2 velocity = 0.0f;
+	
+	Vector2 velocity;
 };
 

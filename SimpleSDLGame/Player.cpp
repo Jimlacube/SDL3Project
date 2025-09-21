@@ -12,6 +12,7 @@
 Player::Player()
 {
     playerRect.SetRectSize(rectSize);
+    position = Vector2(Utilities::GetScreenBounds().X * 0.5f, Utilities::GetScreenBounds().Y * 0.5f);
 }
 
 void Player::Render(struct SDL_Renderer& renderer)
@@ -26,7 +27,7 @@ void Player::Render(struct SDL_Renderer& renderer)
 
     SDL_FRect localPlayer{};
     localPlayer = Utilities::ConvertRect(playerRect);
-
+    SDL_RenderFillRect(localRenderer, &localPlayer);
     SDL_RenderRect(localRenderer, &localPlayer);
 }
 
@@ -42,6 +43,8 @@ void Player::Update(float delta)
     
     position += InputXY * (dashSpeed * speed * delta);
     playerRect.SetRectLocation(position);
+
+    UpdateFiringCooldown(delta);
 }
 
 void Player::KeyStateUpdate()
@@ -55,21 +58,28 @@ void Player::KeyStateUpdate()
     if (currentKeyStates[SDL_SCANCODE_LEFT])    InputXY.X -= 1.0f;
     if (currentKeyStates[SDL_SCANCODE_RIGHT])   InputXY.X += 1.0f;
 
+    if (!(InputXY.X == 0.0f && InputXY.Y == 0.0f))
+    {
+        lastInputDir = InputXY;
+    }
     //Trigger dash when pressed. Reset dash when the key is released
     if (currentKeyStates[SDL_SCANCODE_SPACE])
     {
         StartDash();
-    //TODO implement spawning rectangles
-        if (!(InputXY.X == 0.0f && InputXY.Y == 0.0f))
-        {
-            EntityManager::Create<Bullet>(playerRect.GetRectLocation(),InputXY);
-        }
     }
     else
     {
         bDashReady = true;
     }
-
+    //Fire bullet
+    if (currentKeyStates[SDL_SCANCODE_Z])
+    {
+        if (!bIsFiring)
+        {
+            EntityManager::Create<Bullet>(playerRect.GetRectLocation(),lastInputDir);
+            bIsFiring = true;
+        }
+    }
 }
 
 void Player::StartDash()
@@ -103,9 +113,23 @@ float Player::UpdateDashSpeed(float delta, float timeToComplete)
         }
         return dSpeed;
     }
+    
+    dashTimeRemaining = timeToComplete;
+    return dSpeed = 1.0f;
+}
+
+void Player::UpdateFiringCooldown(float delta)
+{
+    if (firingTimeRemaining <= 0.0f)
+    {
+        bIsFiring = false;
+    }
+    if (bIsFiring)
+    {
+        firingTimeRemaining -= delta;
+    }
     else
     {
-        dashTimeRemaining = timeToComplete;
-        return dSpeed = 1.0f;
+        firingTimeRemaining = firingCooldown;
     }
 }

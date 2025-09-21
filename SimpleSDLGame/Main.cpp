@@ -64,10 +64,6 @@ int main(int argc, char* argv[])
         SDL_SetRenderDrawColor(renderer, 255, 255, 0, 1);
         SDL_RenderClear(renderer);
 
-        //Print number of entities
-        //auto n = EntityManager::GetEntities().size();
-        //printf("%zd \n", n);
-
         //Entity update
         vector<Entity*> Entities = EntityManager::GetEntities();
         for (Entity* Entity : Entities)
