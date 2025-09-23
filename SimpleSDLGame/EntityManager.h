@@ -5,7 +5,7 @@
 
 class EntityManager
 {
-	static std::vector<Entity*> Entities;
+	static std::vector<Entity*> entities;
 public:
 	EntityManager();
 	~EntityManager() = default;
@@ -18,13 +18,14 @@ public:
 	template<class T, class... Args>
 	static T* Create(Args... args);
 	
+	static std::vector<Entity*> SearchEntities(std::string tag);
+	
 };
 
 template <class T, class... Args>
 T* EntityManager::Create(Args... args)
 {
 	T* ent = new T(args...);
-	Entities.push_back(ent);
+	entities.push_back(ent);
 	return ent;
 }
-

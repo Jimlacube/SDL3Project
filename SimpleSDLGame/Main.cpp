@@ -3,6 +3,7 @@
 #include <chrono>
 #include <vector>
 
+#include "Enemy.h"
 #include "Player.h"
 #include "EntityManager.h"
 #include "Utilities.h"
@@ -40,6 +41,9 @@ int main(int argc, char* argv[])
 
     //Create player
     Player* player = EntityManager::Create<Player>();
+
+    //Create Enemy
+    Enemy* enemy = EntityManager::Create<Enemy>();
     
     //Calculate delta
     Clock::time_point prevTime;

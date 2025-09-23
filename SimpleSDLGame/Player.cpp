@@ -13,6 +13,7 @@ Player::Player()
 {
     playerRect.SetRectSize(rectSize);
     position = Vector2(Utilities::GetScreenBounds().X * 0.5f, Utilities::GetScreenBounds().Y * 0.5f);
+    EntityTag = "player";
 }
 
 void Player::Render(struct SDL_Renderer& renderer)

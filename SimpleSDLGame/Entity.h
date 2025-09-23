@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 class Entity
 {
@@ -11,4 +12,6 @@ public:
 	virtual void Render(struct SDL_Renderer& renderer);
 	virtual void Update(float delta);
 	virtual void Destroy();
+
+	std::string EntityTag = "None";
 };
