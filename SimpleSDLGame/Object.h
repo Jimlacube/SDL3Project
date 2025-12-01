@@ -1,4 +1,6 @@
 #pragma once
+#include <SDL3/SDL_render.h>
+
 #include "Entity.h"
 #include "Vectors.h"
 
@@ -10,6 +12,6 @@ public:
 	
 	Vector2 position;
 	Vector2 direction;
-	
+	SDL_FRect collider;
 };
 

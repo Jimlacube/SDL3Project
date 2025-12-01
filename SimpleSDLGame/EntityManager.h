@@ -17,9 +17,9 @@ public:
 	///TODO add inline file
 	template<class T, class... Args>
 	static T* Create(Args... args);
-	
+
+	//TODO change the string comparision for another variable
 	static std::vector<Entity*> SearchEntities(std::string tag);
-	
 };
 
 template <class T, class... Args>

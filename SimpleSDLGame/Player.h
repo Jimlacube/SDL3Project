@@ -1,4 +1,6 @@
 #pragma once
+#include <SDL3/SDL_rect.h>
+
 #include "Object.h"
 #include "Rect.h"
 
@@ -12,6 +14,9 @@ public:
 	void Render(struct SDL_Renderer& renderer) override;
 	void Update(float delta) override;
 
+	//TODO move to object class
+	bool checkCollision(const Object* objectA, const Object* objectB);
+	
 	//Public variables
 	Rect playerRect = Rect();
 
@@ -26,14 +31,14 @@ private:
 	void UpdateFiringCooldown(float delta);
 
 	//Private variables
-	Vector2 InputXY = Vector2();
+	Vector2 inputXY = Vector2();
 
 	float rectSize = 20.0f;
-	float speed = 100.0f;
+	float speed = 10.0f;
 
 	//Dash
 	bool bIsDashing;
-	bool bDashReady;
+	bool bIsDashReady;
 	float dashSpeed = 1.0f;
 	float dashDistance = 0.0f;
 	float dashTimeRemaining = 0.0f;
@@ -47,4 +52,3 @@ private:
 	const float firingCooldown = 0.5f;
 	float firingTimeRemaining;
 };
-
