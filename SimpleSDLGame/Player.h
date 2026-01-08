@@ -14,6 +14,8 @@ public:
 	void Render(struct SDL_Renderer& renderer) override;
 	void Update(float delta) override;
 
+	void CollisionUpdate(float delta, Vector2 axis);
+
 	//TODO move to object class
 	bool checkCollision(const Object* objectA, const Object* objectB);
 	
@@ -34,7 +36,7 @@ private:
 	Vector2 inputXY = Vector2();
 
 	float rectSize = 20.0f;
-	float speed = 10.0f;
+	float speed = 50.0f;
 
 	//Dash
 	bool bIsDashing;

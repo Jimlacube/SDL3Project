@@ -49,35 +49,45 @@ void Player::Update(float delta)
     KeyStateUpdate();
     dashSpeed = UpdateDashSpeed(delta);
     
-    position += inputXY * (dashSpeed * speed * delta);
+    //TODO split into two separate updates
+    //X
+    position += Vector2(inputXY.X, 0) * (dashSpeed * speed * delta);
     playerRect.SetRectLocation(position);
+    CollisionUpdate(delta, Vector2(1,0));
+    //Y
+    position += Vector2(0, inputXY.Y) * (dashSpeed * speed * delta);
+    playerRect.SetRectLocation(position);
+    CollisionUpdate(delta, Vector2(0, 1));
 
+    UpdateFiringCooldown(delta);
+}
+
+void Player::CollisionUpdate(float delta, Vector2 axis)
+{
     Object* hitObject = nullptr;
     std::vector<Entity*> localEntities = EntityManager::GetEntities();
     for (Entity* entity : localEntities)
     {
         if (entity == this)
             continue;
-        
+
         Object* otherObject = static_cast<Object*>(entity);
         if (!otherObject)
         {
             continue;
         }
-        
         if (checkCollision(this, otherObject))
         {
             hitObject = otherObject;
             break;
-        }        
+        }
     }
     if (hitObject)
-    {        
-        position -= inputXY * (dashSpeed * speed * delta);
+    {
+        //TODO make the player slide off collision surfaces
+        position -= inputXY * axis * (dashSpeed * speed * delta);
         playerRect.SetRectLocation(position);
     }
-
-    UpdateFiringCooldown(delta);
 }
 
 bool Player::checkCollision(const Object* objectA, const Object* objectB)
