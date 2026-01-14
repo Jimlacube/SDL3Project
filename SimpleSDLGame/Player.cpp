@@ -48,80 +48,22 @@ void Player::Update(float delta)
 
     KeyStateUpdate();
     dashSpeed = UpdateDashSpeed(delta);
-    
-    //TODO split into two separate updates
-    //X
-    position += Vector2(inputXY.X, 0) * (dashSpeed * speed * delta);
-    playerRect.SetRectLocation(position);
-    CollisionUpdate(delta, Vector2(1,0));
-    //Y
-    position += Vector2(0, inputXY.Y) * (dashSpeed * speed * delta);
-    playerRect.SetRectLocation(position);
-    CollisionUpdate(delta, Vector2(0, 1));
 
+    //Collision update
+    //X
+    Vector2 newInput = Vector2(inputXY.X, 0) * (dashSpeed * speed * delta);
+    position += newInput;
+    playerRect.SetRectLocation(position);
+    CollisionUpdate(playerRect, newInput);
+    //Y
+    newInput = Vector2(0, inputXY.Y) * (dashSpeed * speed * delta);
+    position += newInput;
+    playerRect.SetRectLocation(position);
+    CollisionUpdate(playerRect, newInput);
+
+    //Firing
     UpdateFiringCooldown(delta);
 }
-
-void Player::CollisionUpdate(float delta, Vector2 axis)
-{
-    Object* hitObject = nullptr;
-    std::vector<Entity*> localEntities = EntityManager::GetEntities();
-    for (Entity* entity : localEntities)
-    {
-        if (entity == this)
-            continue;
-
-        Object* otherObject = static_cast<Object*>(entity);
-        if (!otherObject)
-        {
-            continue;
-        }
-        if (checkCollision(this, otherObject))
-        {
-            hitObject = otherObject;
-            break;
-        }
-    }
-    if (hitObject)
-    {
-        //TODO make the player slide off collision surfaces
-        position -= inputXY * axis * (dashSpeed * speed * delta);
-        playerRect.SetRectLocation(position);
-    }
-}
-
-bool Player::checkCollision(const Object* objectA, const Object* objectB)
-{
-    SDL_FRect colliderA = objectA->collider;
-    Vector2 positionA = objectA->position;
-    //Calculate the sides of object A
-    float leftA = colliderA.x + positionA.X;
-    float rightA = colliderA.x + colliderA.w + positionA.X;
-    float topA = colliderA.y + positionA.Y;
-    float bottomA = colliderA.y + colliderA.h + positionA.Y;
-
-    SDL_FRect colliderB = objectB->collider;
-    Vector2 positionB = objectB->position;
-    //Calculate the sides of object B
-    float leftB = colliderB.x;
-    float rightB = colliderB.x + colliderB.w;
-    float topB = colliderB.y;
-    float bottomB = colliderB.y + colliderB.h;
-
-    //Check if any of the sides of A are outside of B
-    if (bottomA <= topB)
-        return false;        
-    if (topA >= bottomB)
-        return false;
-    if (rightA <= leftB)
-        return false;
-    if (leftA >= rightB)
-        return false;
-
-    //If none of the sides from A are outside B
-    return true;
-}
-
 void Player::KeyStateUpdate()
 {
     const bool* currentKeyStates = SDL_GetKeyboardState(nullptr);

@@ -14,10 +14,10 @@ public:
 	void Render(struct SDL_Renderer& renderer) override;
 	void Update(float delta) override;
 
-	void CollisionUpdate(float delta, Vector2 axis);
+	//void CollisionUpdate(float delta, Vector2 axis);
 
 	//TODO move to object class
-	bool checkCollision(const Object* objectA, const Object* objectB);
+	//bool checkCollision(const Object* objectA, const Object* objectB);
 	
 	//Public variables
 	Rect playerRect = Rect();

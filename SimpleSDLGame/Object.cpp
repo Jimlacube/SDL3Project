@@ -13,7 +13,7 @@ Object::Object(Vector2 pos, Vector2 dir)
 	position = pos;
 }
 
-void Object::CollisionUpdate(float delta, Rect collisionRect, Vector2 newPosition)
+void Object::CollisionUpdate(Rect collisionRect, Vector2 newPosition)
 {
     Object* hitObject = nullptr;
     std::vector<Entity*> localEntities = EntityManager::GetEntities();
@@ -35,7 +35,6 @@ void Object::CollisionUpdate(float delta, Rect collisionRect, Vector2 newPositio
     }
     if (hitObject)
     {
-        //TODO make the player slide off collision surfaces
         position -= newPosition;
         collisionRect.SetRectLocation(position);
     }
