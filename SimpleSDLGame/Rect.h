@@ -26,6 +26,7 @@ public:
 	void SetRectSize(Vector2 newSize);
 	void SetRectSizeCenter(Vector2 newSize);
 	
+	Vector2 GetRectCenter();
 	Vector2 GetRectLocation();
 };
 

@@ -20,6 +20,11 @@ void Rect::SetRectSizeCenter(Vector2 newSize)
 	SetRectLocation(GetRectLocation() + dif);
 }
 
+Vector2 Rect::GetRectCenter()
+{
+	return Vector2(X + W * 0.5f, Y + H * 0.5f);
+}
+
 Vector2 Rect::GetRectLocation()
 {
 	return Vector2(X, Y);

@@ -13,13 +13,14 @@ Object::Object(Vector2 pos, Vector2 dir)
 	position = pos;
 }
 
-void Object::CollisionUpdate(Rect collisionRect, Vector2 newPosition)
-{
+void Object::CollisionUpdate(Rect collisionRect, Vector2 newPosition, std::string tagToIgnore)
+{    
     Object* hitObject = nullptr;
     std::vector<Entity*> localEntities = EntityManager::GetEntities();
     for (Entity* entity : localEntities)
     {
-        if (entity == this)
+        //TODO only checks for one tag
+        if (entity == this || entity->EntityTag == tagToIgnore)
             continue;
 
         Object* otherObject = static_cast<Object*>(entity);
@@ -34,9 +35,11 @@ void Object::CollisionUpdate(Rect collisionRect, Vector2 newPosition)
         }
     }
     if (hitObject)
-    {
+    {        
         position -= newPosition;
         collisionRect.SetRectLocation(position);
+        //On hit trigger
+        OnHit();
     }
 }
 
@@ -51,7 +54,6 @@ bool Object::checkCollision(const Object* objectA, const Object* objectB)
     float bottomA = colliderA.y + colliderA.h + positionA.Y;
 
     SDL_FRect colliderB = objectB->collider;
-    Vector2 positionB = objectB->position;
     //Calculate the sides of object B
     float leftB = colliderB.x;
     float rightB = colliderB.x + colliderB.w;
@@ -70,4 +72,8 @@ bool Object::checkCollision(const Object* objectA, const Object* objectB)
 
     //If none of the sides from A are outside B
     return true;
+}
+
+void Object::OnHit()
+{
 }

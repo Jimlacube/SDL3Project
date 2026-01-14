@@ -1,6 +1,7 @@
 #pragma once
 #include "Object.h"
 #include "Rect.h"
+#include "Utilities.h"
 
 class Bullet : public Object
 {
@@ -10,14 +11,19 @@ public:
 	Bullet(Vector2 pos, Vector2 dir) : Object(pos, dir)
 	{
 		bulletRect.SetRectSize(bulletSize);
+		collider = Utilities::ConvertRect(bulletRect);
 		
+		bulletRect.SetRectLocation(pos);
 		const float bulletSpeed = 300.0f;
 		velocity = dir * bulletSpeed;
-		position = pos;		
+		position = pos;
+		
+		EntityTag = "bullet";
 	}
 
 	void Render(struct SDL_Renderer& renderer) override;
 	void Update(float delta) override;
+	void OnHit() override;
 
 	void Explode(float delta);
 

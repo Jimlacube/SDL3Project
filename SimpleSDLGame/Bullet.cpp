@@ -1,6 +1,8 @@
 #include <SDL3/SDL_render.h>
 
 #include "Bullet.h"
+
+#include "EntityManager.h"
 #include "Utilities.h"
 
 void Bullet::Render(struct SDL_Renderer& renderer)
@@ -25,17 +27,26 @@ void Bullet::Update(float delta)
 		Explode(delta);
 		return;
 	}
-	lifetime -= delta;
+	lifetime -= delta;	
 	
-	position += velocity * delta;
+	Vector2 newPos = velocity * delta;
+	position += newPos;
 	bulletRect.SetRectLocation(position);
-
+	CollisionUpdate(bulletRect, newPos,"player");
+	
 	velocity *= 0.99f;
 
 	if (bIsOutOfBounds())
 	{
 		Destroy();
 	}
+}
+
+void Bullet::OnHit()
+{
+	Object::OnHit();
+	
+	lifetime = 0.0f;
 }
 
 void Bullet::Explode(float delta)

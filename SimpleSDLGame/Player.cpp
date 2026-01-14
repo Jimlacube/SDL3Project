@@ -33,10 +33,6 @@ void Player::Render(struct SDL_Renderer& renderer)
     SDL_FRect localPlayer = Utilities::ConvertRect(playerRect);
     SDL_RenderFillRect(localRenderer, &localPlayer);
     SDL_RenderRect(localRenderer, &localPlayer);
-    
-    //Debug draw desired position
-    Vector2 centrePos = position + Vector2(rectSize * 0.5f);
-    SDL_RenderLine(&renderer, centrePos.X, centrePos.Y, desiredPosition.X, desiredPosition.Y);
 }
 
 void Player::Update(float delta)
@@ -54,12 +50,12 @@ void Player::Update(float delta)
     Vector2 newInput = Vector2(inputXY.X, 0) * (dashSpeed * speed * delta);
     position += newInput;
     playerRect.SetRectLocation(position);
-    CollisionUpdate(playerRect, newInput);
+    CollisionUpdate(playerRect, newInput, "bullet");
     //Y
     newInput = Vector2(0, inputXY.Y) * (dashSpeed * speed * delta);
     position += newInput;
     playerRect.SetRectLocation(position);
-    CollisionUpdate(playerRect, newInput);
+    CollisionUpdate(playerRect, newInput, "bullet");
 
     //Firing
     UpdateFiringCooldown(delta);
