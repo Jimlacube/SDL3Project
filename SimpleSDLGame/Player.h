@@ -1,10 +1,8 @@
 #pragma once
-#include <SDL3/SDL_rect.h>
 
-#include "Object.h"
-#include "Rect.h"
+#include "Character.h"
 
-class Player : public Object
+class Player : public Character
 {
 public:
 	
@@ -13,14 +11,7 @@ public:
 		
 	void Render(struct SDL_Renderer& renderer) override;
 	void Update(float delta) override;
-
-	//void CollisionUpdate(float delta, Vector2 axis);
-
-	//TODO move to object class
-	//bool checkCollision(const Object* objectA, const Object* objectB);
-	
-	//Public variables
-	Rect playerRect = Rect();
+	virtual void OnHit(Object* hitObject) override;
 
 private:
 

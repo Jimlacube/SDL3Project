@@ -13,7 +13,7 @@ Object::Object(Vector2 pos, Vector2 dir)
 	position = pos;
 }
 
-void Object::CollisionUpdate(Rect collisionRect, Vector2 newPosition, std::string tagToIgnore)
+Object* Object::CollisionUpdate(Rect collisionRect, Vector2 newPosition, std::string tagToIgnore)
 {    
     Object* hitObject = nullptr;
     std::vector<Entity*> localEntities = EntityManager::GetEntities();
@@ -39,8 +39,10 @@ void Object::CollisionUpdate(Rect collisionRect, Vector2 newPosition, std::strin
         position -= newPosition;
         collisionRect.SetRectLocation(position);
         //On hit trigger
-        OnHit();
+        OnHit(hitObject);
+        return hitObject;
     }
+    return hitObject;
 }
 
 bool Object::checkCollision(const Object* objectA, const Object* objectB)
@@ -74,6 +76,7 @@ bool Object::checkCollision(const Object* objectA, const Object* objectB)
     return true;
 }
 
-void Object::OnHit()
+void Object::OnHit(Object* hitObject)
 {
+
 }

@@ -1,8 +1,8 @@
 ﻿#pragma once
-#include "Object.h"
-#include "Rect.h"
 
-class Enemy : public Object
+#include "Character.h"
+
+class Enemy : public Character
 {
 public:
     Enemy();
@@ -10,7 +10,9 @@ public:
     //Public functions
     void Render(struct SDL_Renderer& renderer) override;
     void Update(float delta) override;
+    virtual void OnHit(Object* hitObject) override;
 
-    //Public variables
-    Rect enemyRect = Rect();
+private:
+    float enemyLifeSpan = 0.0f;
+    float rectSize = 100.0f;
 };

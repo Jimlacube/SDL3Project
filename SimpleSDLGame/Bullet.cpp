@@ -1,6 +1,7 @@
 #include <SDL3/SDL_render.h>
 
 #include "Bullet.h"
+#include "Character.h"
 
 #include "EntityManager.h"
 #include "Utilities.h"
@@ -42,10 +43,17 @@ void Bullet::Update(float delta)
 	}
 }
 
-void Bullet::OnHit()
+void Bullet::OnHit(Object* hitObject)
 {
-	Object::OnHit();
-	
+	Object::OnHit(hitObject);
+	if (hitObject)
+	{
+		if (Character* hitCharacter = dynamic_cast<Character*>(hitObject))
+		{
+			hitCharacter->OnCharacterHit(this);
+		}
+	}
+
 	lifetime = 0.0f;
 }
 

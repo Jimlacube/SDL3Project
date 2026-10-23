@@ -13,9 +13,9 @@ public:
 	Object();
 	Object(Vector2 pos, Vector2 dir);
 
-	void CollisionUpdate(Rect collisionRect, Vector2 newPosition, std::string tagToIgnore = "");
+	Object* CollisionUpdate(Rect collisionRect, Vector2 newPosition, std::string tagToIgnore = "");
 	bool checkCollision(const Object* objectA, const Object* objectB);
-	virtual void OnHit();
+	virtual void OnHit(Object* hitObject);
 	
 	Vector2 position;
 	Vector2 direction;

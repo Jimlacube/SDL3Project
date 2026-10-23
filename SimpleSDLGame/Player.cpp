@@ -12,10 +12,10 @@
 
 Player::Player()
 {
-    playerRect.SetRectSize(rectSize);
+    CharacterRect.SetRectSize(rectSize);
     position = Vector2(Utilities::GetScreenBounds().X * 0.5f, Utilities::GetScreenBounds().Y * 0.5f);
     EntityTag = "player";
-    collider = Utilities::ConvertRect(playerRect);
+    collider = Utilities::ConvertRect(CharacterRect);
 }
 
 Vector2 desiredPosition = Vector2(0.0f);
@@ -30,7 +30,7 @@ void Player::Render(struct SDL_Renderer& renderer)
 
     SDL_SetRenderDrawColor(localRenderer, 255, 0, 0, 1);
     
-    SDL_FRect localPlayer = Utilities::ConvertRect(playerRect);
+    SDL_FRect localPlayer = Utilities::ConvertRect(CharacterRect);
     SDL_RenderFillRect(localRenderer, &localPlayer);
     SDL_RenderRect(localRenderer, &localPlayer);
 }
@@ -49,17 +49,24 @@ void Player::Update(float delta)
     //X
     Vector2 newInput = Vector2(inputXY.X, 0) * (dashSpeed * speed * delta);
     position += newInput;
-    playerRect.SetRectLocation(position);
-    CollisionUpdate(playerRect, newInput, "bullet");
+    CharacterRect.SetRectLocation(position);
+    CollisionUpdate(CharacterRect, newInput, "bullet");
     //Y
     newInput = Vector2(0, inputXY.Y) * (dashSpeed * speed * delta);
     position += newInput;
-    playerRect.SetRectLocation(position);
-    CollisionUpdate(playerRect, newInput, "bullet");
+    CharacterRect.SetRectLocation(position);
+    CollisionUpdate(CharacterRect, newInput, "bullet");
 
     //Firing
     UpdateFiringCooldown(delta);
+
 }
+
+void Player::OnHit(Object* hitObject)
+{
+    printf("hit obj: \n");
+}
+
 void Player::KeyStateUpdate()
 {
     const bool* currentKeyStates = SDL_GetKeyboardState(nullptr);
@@ -89,7 +96,7 @@ void Player::KeyStateUpdate()
     {
         if (!bIsFiring)
         {
-            EntityManager::Create<Bullet>(playerRect.GetRectLocation(),lastInputDir);
+            EntityManager::Create<Bullet>(CharacterRect.GetRectLocation(),lastInputDir);
             bIsFiring = true;
         }
     }

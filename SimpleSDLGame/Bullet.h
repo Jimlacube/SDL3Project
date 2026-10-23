@@ -23,7 +23,7 @@ public:
 
 	void Render(struct SDL_Renderer& renderer) override;
 	void Update(float delta) override;
-	void OnHit() override;
+	void OnHit(Object* hitObject) override;
 
 	void Explode(float delta);
 
